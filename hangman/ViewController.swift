@@ -12,6 +12,8 @@ class ViewController: UIViewController {
     var numberOfTriesLabel: UILabel!
     
     var correctAnswer = ""
+    var guessedLetters: [Character] = ["a"]
+    
     var currentAnswer = "" {
         didSet {
             wordLabel.text = currentAnswer
@@ -86,7 +88,23 @@ class ViewController: UIViewController {
         possibleAnswers.shuffle()
         
         correctAnswer = possibleAnswers[0]
-        currentAnswer = String(repeating: "?", count: correctAnswer.count)
+        
+        // IMPLEMENTACAO ALTERNATIVA PARA START GAME:
+        // currentAnswer = String(repeating: "?", count: correctAnswer.count)
+        
+        updateWordLabel()
+    }
+    
+    func updateWordLabel() {
+        var newWordLabel = ""
+        
+        for letter in correctAnswer {
+            if guessedLetters.contains(Character(letter.lowercased())) {
+                newWordLabel += String(letter)
+            } else {
+                newWordLabel += "?"
+            }
+        }
+        currentAnswer = newWordLabel
     }
 }
-
