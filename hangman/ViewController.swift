@@ -39,8 +39,25 @@ class ViewController: UIViewController {
         let submitButton = UIButton(type: .system)
         submitButton.translatesAutoresizingMaskIntoConstraints = false
         submitButton.setTitle("New letter", for: .normal)
+        submitButton.tintColor = .black
+        submitButton.layer.cornerRadius = 5
+        submitButton.layer.borderWidth = 1
+        submitButton.layer.borderColor = UIColor.black.cgColor
+        submitButton.titleEdgeInsets = .init(top: 10, left: 15, bottom: 10, right: 15)
         view.addSubview(submitButton)
+        
+        NSLayoutConstraint.activate([
+            wordLabel.centerYAnchor.constraint(equalTo: view.layoutMarginsGuide.centerYAnchor, constant: -100),
+            wordLabel.centerXAnchor.constraint(equalTo: view.layoutMarginsGuide.centerXAnchor),
             
+            numberOfTriesLabel.topAnchor.constraint(equalTo: wordLabel.bottomAnchor, constant: 25),
+            numberOfTriesLabel.centerXAnchor.constraint(equalTo: view.layoutMarginsGuide.centerXAnchor),
+            
+            submitButton.topAnchor.constraint(equalTo: numberOfTriesLabel.bottomAnchor, constant: 25),
+            submitButton.centerXAnchor.constraint(equalTo: view.layoutMarginsGuide.centerXAnchor),
+            submitButton.widthAnchor.constraint(equalTo: view.layoutMarginsGuide.widthAnchor, multiplier: 0.2, constant: 75)
+        ])
+        
         // testing
         numberOfTriesLabel.backgroundColor = .red
         wordLabel.backgroundColor = .blue
