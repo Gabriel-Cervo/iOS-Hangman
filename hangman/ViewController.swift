@@ -57,10 +57,6 @@ class ViewController: UIViewController {
             submitButton.centerXAnchor.constraint(equalTo: view.layoutMarginsGuide.centerXAnchor),
             submitButton.widthAnchor.constraint(equalTo: view.layoutMarginsGuide.widthAnchor, multiplier: 0.2, constant: 75)
         ])
-        
-        // testing
-        numberOfTriesLabel.backgroundColor = .red
-        wordLabel.backgroundColor = .blue
     }
     
     override func viewDidLoad() {
