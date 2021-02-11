@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     var numberOfTriesLabel: UILabel!
     
     var correctAnswer = ""
-    var guessedLetters: [Character] = ["a"]
+    var guessedLetters = [Character]()
     
     var currentAnswer = "" {
         didSet {
@@ -52,6 +52,7 @@ class ViewController: UIViewController {
         submitButton.layer.borderWidth = 1
         submitButton.layer.borderColor = UIColor.black.cgColor
         submitButton.titleEdgeInsets = .init(top: 10, left: 15, bottom: 10, right: 15)
+        submitButton.addAction(UIAction(handler: onSubmitTapped), for: .touchUpInside)
         view.addSubview(submitButton)
         
         NSLayoutConstraint.activate([
@@ -105,6 +106,44 @@ class ViewController: UIViewController {
                 newWordLabel += "?"
             }
         }
+        
         currentAnswer = newWordLabel
+    }
+    
+    func onSubmitTapped(action: UIAction) {
+        let alertController = UIAlertController(title: "Enter a new character", message: nil, preferredStyle: .alert)
+        alertController.addTextField()
+        
+        let submitAction = UIAlertAction(title: "submit", style: .default) { [weak self, weak alertController] action in
+            guard let answer = alertController?.textFields?[0].text else { return }
+            
+            self?.submitAnswer(answer)
+        }
+        
+        alertController.addAction(submitAction)
+        
+        present(alertController, animated: true)
+    }
+    
+    func submitAnswer(_ answer: String) {
+        if answer.count > 0 {
+            let errorAlert = UIAlertController(title: "Error!", message: "You can't type more than one word per try!", preferredStyle: .alert)
+            errorAlert.addAction(UIAlertAction(title: "Ok", style: .default))
+            
+            present(errorAlert, animated: true)
+            return
+        }
+        
+        if correctAnswer.contains(answer) {
+            guessedLetters.append(contentsOf: answer)
+            updateWordLabel()
+        } else {
+            numberOfTriesRemaining -= 1
+            
+            let wrongAnswerAlert = UIAlertController(title: "Too bad!", message: "The letter isn't in the word!", preferredStyle: .alert)
+            wrongAnswerAlert.addAction(UIAlertAction(title: ":(", style: .default))
+            
+            present(wrongAnswerAlert, animated: true)
+        }
     }
 }
