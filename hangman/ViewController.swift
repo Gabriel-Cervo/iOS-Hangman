@@ -11,7 +11,13 @@ class ViewController: UIViewController {
     var wordLabel: UILabel!
     var numberOfTriesLabel: UILabel!
     
-    let correctAnswer: String = "?"
+    var correctAnswer = ""
+    var currentAnswer = "" {
+        didSet {
+            wordLabel.text = currentAnswer
+        }
+    }
+    
     var numberOfTriesRemaining = 5 {
         didSet {
             numberOfTriesLabel.text = "\(numberOfTriesRemaining) tries remaining"
@@ -61,8 +67,26 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loadGame()
     }
-
-
+    
+    func loadGame() {
+        guard let animalsTxtUrl = Bundle.main.url(forResource: "animals", withExtension: "txt") else {
+            print("No file found")
+            return
+        }
+        
+        guard let animalsTxtContent = try? String(contentsOf: animalsTxtUrl) else {
+            print("Cant transform file into string")
+            return
+        }
+        
+        var possibleAnswers = animalsTxtContent.components(separatedBy: "\n")
+        possibleAnswers.shuffle()
+        
+        correctAnswer = possibleAnswers[0]
+        currentAnswer = String(repeating: "?", count: correctAnswer.count)
+    }
 }
 
