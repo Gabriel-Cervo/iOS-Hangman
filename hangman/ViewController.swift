@@ -137,33 +137,34 @@ class ViewController: UIViewController {
         if correctAnswer.lowercased().contains(answer.lowercased()) {
             guessedLetters.append(contentsOf: answer)
             updateWordLabel()
+            checkGameStatus()
         } else {
             numberOfTriesRemaining -= 1
             
             let wrongAnswerAlert = UIAlertController(title: "Too bad!", message: "The letter isn't in the word!", preferredStyle: .alert)
-            wrongAnswerAlert.addAction(UIAlertAction(title: ":(", style: .default))
+            wrongAnswerAlert.addAction(UIAlertAction(title: ":(", style: .default) { [weak self] _ in
+                self?.checkGameStatus()
+            })
             
             present(wrongAnswerAlert, animated: true)
         }
-        
-        checkGameStatus()
-    }
+}
     
     func checkGameStatus() {
         if numberOfTriesRemaining == 0 {
             let endGameAlert = UIAlertController(title: "You lost!", message: "No more tries remaining", preferredStyle: .alert)
-            endGameAlert.addAction(UIAlertAction(title: "Try again", style: .default))
-            
-            present(endGameAlert, animated: true) { [weak self] in
+            endGameAlert.addAction(UIAlertAction(title: "Try again", style: .default) { [weak self] _ in
                 self?.resetGame()
-            }
+            })
+            
+            present(endGameAlert, animated: true)
         } else if (correctAnswer == currentAnswer) {
             let winGameAlert = UIAlertController(title: "Congratulations!", message: "You won the game!", preferredStyle: .alert)
-            winGameAlert.addAction(UIAlertAction(title: "Play again", style: .default))
-            
-            present(winGameAlert, animated: true) { [weak self] in
+            winGameAlert.addAction(UIAlertAction(title: "Play again", style: .default) { [weak self] _ in
                 self?.resetGame()
-            }
+            })
+            
+            present(winGameAlert, animated: true)
         }
     }
     
