@@ -145,5 +145,32 @@ class ViewController: UIViewController {
             
             present(wrongAnswerAlert, animated: true)
         }
+        
+        checkGameStatus()
+    }
+    
+    func checkGameStatus() {
+        if numberOfTriesRemaining == 0 {
+            let endGameAlert = UIAlertController(title: "You lost!", message: "No more tries remaining", preferredStyle: .alert)
+            endGameAlert.addAction(UIAlertAction(title: "Try again", style: .default))
+            
+            present(endGameAlert, animated: true) { [weak self] in
+                self?.resetGame()
+            }
+        } else if (correctAnswer == currentAnswer) {
+            let winGameAlert = UIAlertController(title: "Congratulations!", message: "You won the game!", preferredStyle: .alert)
+            winGameAlert.addAction(UIAlertAction(title: "Play again", style: .default))
+            
+            present(winGameAlert, animated: true) { [weak self] in
+                self?.resetGame()
+            }
+        }
+    }
+    
+    func resetGame() {
+        numberOfTriesRemaining = 5
+        guessedLetters.removeAll()
+        
+        loadGame()
     }
 }
