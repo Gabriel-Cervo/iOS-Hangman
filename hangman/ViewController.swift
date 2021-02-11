@@ -134,7 +134,7 @@ class ViewController: UIViewController {
             return
         }
         
-        if correctAnswer.contains(answer) {
+        if correctAnswer.lowercased().contains(answer.lowercased()) {
             guessedLetters.append(contentsOf: answer)
             updateWordLabel()
         } else {
