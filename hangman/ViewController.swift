@@ -126,7 +126,7 @@ class ViewController: UIViewController {
     }
     
     func submitAnswer(_ answer: String) {
-        if answer.count > 0 {
+        if answer.count > 1 {
             let errorAlert = UIAlertController(title: "Error!", message: "You can't type more than one word per try!", preferredStyle: .alert)
             errorAlert.addAction(UIAlertAction(title: "Ok", style: .default))
             
